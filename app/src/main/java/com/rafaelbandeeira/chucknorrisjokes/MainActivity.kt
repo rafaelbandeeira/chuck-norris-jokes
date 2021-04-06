@@ -2,6 +2,7 @@ package com.rafaelbandeeira.chucknorrisjokes
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -11,35 +12,47 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var textView: TextView
-    private lateinit var button: Button
+    private val TAG: String = "Lifecycle -> Activity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        button = findViewById(R.id.mainButton)
+        Log.i(TAG, "onCreate")
 
-        button.setOnClickListener {
-            getJokes()
-        }
-
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container_view, MainFragment())
+            .commit()
     }
 
-    fun getJokes() {
-        val jokesInterface = JokesInterface.create().getRandomJoke()
-        textView = findViewById(R.id.textview)
-        jokesInterface.enqueue( object : Callback<Jokes> {
-            override fun onResponse(call: Call<Jokes>?, response: Response<Jokes>?) {
-                if (response?.code() == 200) {
-                    val responseBody = response.body()
-                    textView.text = responseBody?.value
-                }
-            }
+    override fun onStart() {
+        super.onStart()
 
-            override fun onFailure(call: Call<Jokes>, t: Throwable) {
-                Toast.makeText(baseContext, t.message, Toast.LENGTH_SHORT).show()
-            }
-        })
+        Log.i(TAG, "onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        Log.i(TAG, "onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        Log.i(TAG, "onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        Log.i(TAG, "onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        Log.i(TAG, "onDestroy")
     }
 }
