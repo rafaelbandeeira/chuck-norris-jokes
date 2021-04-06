@@ -11,11 +11,14 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var textView: TextView
+    private lateinit var button: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val button: Button = findViewById(R.id.mainButton)
+        button = findViewById(R.id.mainButton)
 
         button.setOnClickListener {
             getJokes()
@@ -25,12 +28,12 @@ class MainActivity : AppCompatActivity() {
 
     fun getJokes() {
         val jokesInterface = JokesInterface.create().getRandomJoke()
-        val textView: TextView = findViewById(R.id.textview)
+        textView = findViewById(R.id.textview)
         jokesInterface.enqueue( object : Callback<Jokes> {
             override fun onResponse(call: Call<Jokes>?, response: Response<Jokes>?) {
                 if (response?.code() == 200) {
-                    var responseBody = response.body()!!
-                    textView.text = responseBody.value
+                    val responseBody = response.body()
+                    textView.text = responseBody?.value
                 }
             }
 
