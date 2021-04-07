@@ -1,4 +1,4 @@
-package com.rafaelbandeeira.chucknorrisjokes
+package com.rafaelbandeeira.chucknorrisjokes.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -7,38 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import com.rafaelbandeeira.chucknorrisjokes.viewModels.MainViewModel
+import com.rafaelbandeeira.chucknorrisjokes.R
 
 class MainFragment : Fragment(R.layout.fragment_main) {
     private lateinit var textView: TextView
     private lateinit var button: Button
 
+    private val viewModel: MainViewModel by viewModels()
     private val TAG: String = "Lifecycle - Fragment"
-
-    private fun getJokes() {
-        val jokesInterface = JokesInterface.create().getRandomJoke()
-
-        jokesInterface.enqueue( object : Callback<Jokes> {
-            override fun onResponse(call: Call<Jokes>?, response: Response<Jokes>?) {
-                if (response?.code() == 200) {
-                    val responseBody = response.body()
-                    textView.text = responseBody?.value
-                }
-            }
-
-            override fun onFailure(call: Call<Jokes>, t: Throwable) {
-                Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         Log.i(TAG, "onCreate")
     }
 
@@ -48,9 +31,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         textView = view.findViewById(R.id.textview)
         button = view.findViewById(R.id.mainButton)
 
-        button.setOnClickListener {
-            getJokes()
+        button.setOnClickListener{
+            viewModel.getJokes()
         }
+
+        viewModel.joke.observe(viewLifecycleOwner, { joke ->
+            textView.text = joke
+        })
     }
 
     override fun onCreateView(

@@ -1,4 +1,4 @@
-package com.rafaelbandeeira.chucknorrisjokes
+package com.rafaelbandeeira.chucknorrisjokes.network
 
 data class Jokes (
     var icon_url: String?,
