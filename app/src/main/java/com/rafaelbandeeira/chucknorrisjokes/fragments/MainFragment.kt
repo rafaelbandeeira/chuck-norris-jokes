@@ -12,12 +12,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.rafaelbandeeira.chucknorrisjokes.viewModels.MainViewModel
 import com.rafaelbandeeira.chucknorrisjokes.R
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment(R.layout.fragment_main) {
     private lateinit var textView: TextView
     private lateinit var button: Button
 
-    private val viewModel: MainViewModel by viewModels()
+//    private val viewModel: MainViewModel by viewModels()
+    private val mainViewModel by viewModel<MainViewModel>()
     private val TAG: String = "Lifecycle - Fragment"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,10 +34,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         button = view.findViewById(R.id.mainButton)
 
         button.setOnClickListener{
-            viewModel.getJokes()
+            mainViewModel.getJokes()
         }
 
-        viewModel.joke.observe(viewLifecycleOwner, { joke ->
+        mainViewModel.joke.observe(viewLifecycleOwner, { joke ->
             textView.text = joke
         })
     }
