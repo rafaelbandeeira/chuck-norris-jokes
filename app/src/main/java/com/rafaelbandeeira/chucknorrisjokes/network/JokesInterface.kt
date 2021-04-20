@@ -1,4 +1,4 @@
-package com.rafaelbandeeira.chucknorrisjokes
+package com.rafaelbandeeira.chucknorrisjokes.network
 
 import retrofit2.Call
 import retrofit2.Retrofit

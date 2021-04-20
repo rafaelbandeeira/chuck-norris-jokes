@@ -3,12 +3,7 @@ package com.rafaelbandeeira.chucknorrisjokes
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.rafaelbandeeira.chucknorrisjokes.fragments.MainFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,10 +15,12 @@ class MainActivity : AppCompatActivity() {
 
         Log.i(TAG, "onCreate")
 
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragment_container_view, MainFragment())
-            .commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container_view, MainFragment())
+                .commit()
+        }
     }
 
     override fun onStart() {
