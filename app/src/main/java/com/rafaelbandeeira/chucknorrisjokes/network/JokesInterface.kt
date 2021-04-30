@@ -7,7 +7,7 @@ import retrofit2.http.GET
 
 interface JokesInterface {
     @GET("random")
-    fun getRandomJoke(): Call<Jokes>
+    fun getRandomJoke(): Call<JokesRemote>
 
     companion object {
         private const val BASE_URL = "https://api.chucknorris.io/jokes/"
