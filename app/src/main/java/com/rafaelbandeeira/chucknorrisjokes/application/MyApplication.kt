@@ -1,7 +1,7 @@
 package com.rafaelbandeeira.chucknorrisjokes.application
 
 import android.app.Application
-import com.rafaelbandeeira.chucknorrisjokes.DiModule.viewModelModule
+import com.rafaelbandeeira.chucknorrisjokes.diModule.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
