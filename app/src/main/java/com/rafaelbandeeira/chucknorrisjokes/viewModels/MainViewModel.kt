@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.rafaelbandeeira.chucknorrisjokes.data.remote.repository.JokeRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainViewModel(
     private val jokeRepository: JokeRepository
@@ -15,9 +17,11 @@ class MainViewModel(
     val joke = _joke as LiveData<String>
 
     fun getJokes() {
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.IO) {
             val jokeResponse = jokeRepository.getJoke()
-            _joke.value = jokeResponse.text
+            withContext(Dispatchers.Main) {
+                _joke.value = jokeResponse.text
+            }
         }
     }
 }
